@@ -47,7 +47,7 @@ Texture::~Texture()
 void Texture::Bind()
 {   
     glActiveTexture(GL_TEXTURE0);
-    glUniform1i(glGetUniformLocation(Shader::_program, "texture"), 0);
+    glUniform1i(glGetUniformLocation(Shader::_program, "tex"), 0);
     glBindTexture(GL_TEXTURE_2D,_texture);
 }
 
