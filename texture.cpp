@@ -24,13 +24,17 @@ Texture::Texture(const std::string &path, TexCord *uv)
     SOIL_free_image_data(data);
     glBindTexture(GL_TEXTURE_2D,0);
 
+    //Got upto this
+    //Rest is just rubbish, need help
+    
     GLuint textureBuffer;
     glGenBuffers(1,&textureBuffer);
     glBindBuffer(GL_ARRAY_BUFFER,textureBuffer);
     glBufferData(GL_ARRAY_BUFFER,sizeof(uv),uv,GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,0,(void*)0);
+    GLint texAttrib = glGetAttribLocation(Shader::_program, "coords");
+    glEnableVertexAttribArray(texAttrib);
+    glVertexAttribPointer(texAttrib,2,GL_FLOAT,GL_FALSE,0,(void*)0);
 
     glBindVertexArray(0);
 }

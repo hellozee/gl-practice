@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 
+//Separate vertex class for better readability
 class Vertex{
 
 public:
@@ -22,6 +23,7 @@ public:
 
 private:
 
+    //I have no idea why I am using an enum
     enum{
         POSITION_VB,
         NUM_BUFFERS

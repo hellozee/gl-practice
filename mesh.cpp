@@ -26,6 +26,7 @@ void Mesh::Draw()
 {
     glBindVertexArray(_VAO);
 
+    //Please dont bash for using QUADS, using it for the moment to avoid some complicacies
     glDrawArrays(GL_QUADS,0,_drawCount);
 
     glBindVertexArray(0);
