@@ -7,20 +7,16 @@ int main(){
 
     Display disp(800,600,"Testing"); // SDL Window for drawing things
 
-    //Vertex of the mesh which is to be drawn
-    Vertex vertices[] = { Vertex(glm::vec3( -0.5, 0.5,0)),
-                          Vertex(glm::vec3(-0.5,-0.5,0)),
-                          Vertex(glm::vec3( 0.5,-0.5,0))};
-                          
 
-    //Texture Coordinates
-    TexCord uvs[] = {TexCord(glm::vec2( 0.5, 1.0)),
-                     TexCord(glm::vec2( 0.0, 0.0)),
-                     TexCord(glm::vec2( 1.0, 0.0))};
+    GLfloat meshData[] = {
+         0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 1.0,
+        -0.5,-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+         0.5,-0.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0
+    };
 
     //Intializing mesh
-    Mesh mesh(vertices,sizeof(vertices)/sizeof(vertices[0]));
-    mesh.addTexture("res/container.jpg",uvs);
+    Mesh mesh(meshData,sizeof(meshData)/sizeof(meshData[0]));
+    mesh.addTexture("res/container.jpg");
     //Fetching Shaders
     Shader shader("res/shader");
 

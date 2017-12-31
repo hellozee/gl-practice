@@ -26,11 +26,11 @@ private:
 class Mesh{
 
 public:
-    Mesh(Vertex *vertices,unsigned int numVerts);
+    Mesh(GLfloat *meshData,unsigned int numVerts);
     ~Mesh();
 
     void Draw(GLuint program);
-    void addTexture(const char * path,TexCord *uv);
+    void addTexture(const char * path);
 
 private:
 

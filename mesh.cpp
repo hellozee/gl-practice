@@ -1,19 +1,20 @@
 #include "mesh.h"
 
-Mesh::Mesh(Vertex *vertices,unsigned int numVerts):
-_drawCount(numVerts)
+Mesh::Mesh(GLfloat *meshData,unsigned int numVerts)
 {
-
+    _drawCount = numVerts/8;
     glGenVertexArrays(1,&_vao);
     glBindVertexArray(_vao);
 
     glGenBuffers(1,&_vbo);
     glBindBuffer(GL_ARRAY_BUFFER,_vbo);
-    glBufferData(GL_ARRAY_BUFFER,numVerts * sizeof(vertices[0]),vertices,GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER,numVerts * sizeof(meshData[0]),meshData,GL_STATIC_DRAW);
 
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,8 * sizeof(GL_FLOAT),(GLvoid*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,8 * sizeof(GL_FLOAT),(GLvoid*)(3*sizeof(GLfloat)));
 
     glBindVertexArray(0);
 }
@@ -32,17 +33,17 @@ void Mesh::Draw(GLuint program)
     glBindTexture(GL_TEXTURE_2D, _texture);
     glUniform1i(glGetUniformLocation(program,"tex"),0);
 
-    glDrawArrays(GL_TRIANGLES,0,6);
+    glDrawArrays(GL_TRIANGLES,0,_drawCount);
 
     glBindVertexArray(0);
 }
 
-void Mesh::addTexture(const char *path,TexCord *uv){
-    
+void Mesh::addTexture(const char *path){
+
     glGenTextures(1,&_texture);
     glBindTexture(GL_TEXTURE_2D, _texture);
 
-    // Set the _texture wrapping parameters
+    // Set the _texture wrapping parametersusing different buffer objects for texture and vertices
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set _texture wrapping to GL_REPEAT (usually basic wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // Set _texture filtering parameters
@@ -58,8 +59,8 @@ void Mesh::addTexture(const char *path,TexCord *uv){
     glBindTexture(GL_TEXTURE_2D,0);
 
     glBindVertexArray(_vao);
-    glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,2 * sizeof(GLfloat),(GLvoid*)(0));
-    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,8 * sizeof(GLfloat),(GLvoid*)(sizeof(GLfloat) * 6));
     glBindVertexArray(0);
 }
 
