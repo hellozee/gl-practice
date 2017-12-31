@@ -8,22 +8,19 @@ int main(){
     Display disp(800,600,"Testing"); // SDL Window for drawing things
 
     //Vertex of the mesh which is to be drawn
-    Vertex vertices[] = { Vertex(glm::vec3( 0.5, 0.5,0)),
-                          Vertex(glm::vec3( 0.5,-0.5,0)),
+    Vertex vertices[] = { Vertex(glm::vec3( -0.5, 0.5,0)),
                           Vertex(glm::vec3(-0.5,-0.5,0)),
-                          Vertex(glm::vec3(-0.5, 0.5,0))};
+                          Vertex(glm::vec3( 0.5,-0.5,0))};
                           
-    GLuint indices[] = {0,1,3,1,2,3};
 
     //Texture Coordinates
-    TexCord uvs[] = {TexCord(glm::vec2( 1.0, 1.0)),
-                     TexCord(glm::vec2( 1.0, 0.0)),
+    TexCord uvs[] = {TexCord(glm::vec2( 0.5, 1.0)),
                      TexCord(glm::vec2( 0.0, 0.0)),
-                     TexCord(glm::vec2( 0.0, 1.0))};
+                     TexCord(glm::vec2( 1.0, 0.0))};
 
     //Intializing mesh
-    Mesh mesh(vertices,sizeof(vertices)/sizeof(vertices[0]),indices,sizeof(indices)/sizeof(indices[0]));
-    mesh.addTexture("res/brick.jpg",uvs);
+    Mesh mesh(vertices,sizeof(vertices)/sizeof(vertices[0]));
+    mesh.addTexture("res/container.jpg",uvs);
     //Fetching Shaders
     Shader shader("res/shader");
 

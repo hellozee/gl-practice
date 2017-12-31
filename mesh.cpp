@@ -1,7 +1,7 @@
 #include "mesh.h"
 
-Mesh::Mesh(Vertex *vertices,unsigned int numVerts,GLuint *indices,unsigned int drawCount):
-_drawCount(drawCount)
+Mesh::Mesh(Vertex *vertices,unsigned int numVerts):
+_drawCount(numVerts)
 {
 
     glGenVertexArrays(1,&_vao);
@@ -11,9 +11,6 @@ _drawCount(drawCount)
     glBindBuffer(GL_ARRAY_BUFFER,_vbo);
     glBufferData(GL_ARRAY_BUFFER,numVerts * sizeof(vertices[0]),vertices,GL_STATIC_DRAW);
 
-    glGenBuffers(1,&_ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,_drawCount*sizeof(indices[0]),indices,GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
@@ -24,7 +21,6 @@ _drawCount(drawCount)
 Mesh::~Mesh()
 {
     glDeleteBuffers(1,&_vbo);
-    glDeleteBuffers(1,&_ebo);
     glDeleteVertexArrays(1,&_vao);
 }
 
@@ -34,9 +30,9 @@ void Mesh::Draw(GLuint program)
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _texture);
-    glUniform1i(glGetUniformLocation(program,"tex1"),0);
+    glUniform1i(glGetUniformLocation(program,"tex"),0);
 
-    glDrawElements(GL_TRIANGLES,_drawCount,GL_UNSIGNED_INT,0);
+    glDrawArrays(GL_TRIANGLES,0,6);
 
     glBindVertexArray(0);
 }

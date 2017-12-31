@@ -26,7 +26,7 @@ private:
 class Mesh{
 
 public:
-    Mesh(Vertex *vertices,unsigned int numVerts,GLuint *indices,unsigned int drawCount);
+    Mesh(Vertex *vertices,unsigned int numVerts);
     ~Mesh();
 
     void Draw(GLuint program);
@@ -34,7 +34,7 @@ public:
 
 private:
 
-    GLuint _vbo,_ebo,_vao,_texture;
+    GLuint _vbo,_vao,_texture;
 
     unsigned int _drawCount;
 };
