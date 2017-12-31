@@ -1,38 +1,36 @@
 #include "shader.h"
 
-GLuint Shader::_program = 0;
-
 Shader::Shader(const std::string &path)
 {
-    _program = glCreateProgram();
+    program = glCreateProgram();
     _shaders[0] = CreateShader(LoadShader(path + ".vs"),GL_VERTEX_SHADER);
     _shaders[1] = CreateShader(LoadShader(path + ".fs"),GL_FRAGMENT_SHADER);
 
     for(unsigned int i=0;i<2;i++){
-        glAttachShader(_program,_shaders[i]);
+        glAttachShader(program,_shaders[i]);
     }
 
-    glLinkProgram(_program);
+    glLinkProgram(program);
 
-    CheckShaderError(_program,GL_LINK_STATUS,true,"Error Shader program failed to link");
+    CheckShaderError(program,GL_LINK_STATUS,true,"Error Shader program failed to link");
 
-    glValidateProgram(_program);
+    glValidateProgram(program);
 
-    CheckShaderError(_program,GL_VALIDATE_STATUS,true,"Error Shader program is invalid");
+    CheckShaderError(program,GL_VALIDATE_STATUS,true,"Error Shader program is invalid");
 }
 
 Shader::~Shader()
 {
     for(int i=0;i<2;i++){
-        glDetachShader(_program,_shaders[i]);
+        glDetachShader(program,_shaders[i]);
         glDeleteShader(_shaders[i]);
     }
-    glDeleteProgram(_program);
+    glDeleteProgram(program);
 }
 
 void Shader::Bind()
 {   
-    glUseProgram(_program);
+    glUseProgram(program);
 }
 
 GLuint Shader::CreateShader(const std::string &text, GLenum shaderType)

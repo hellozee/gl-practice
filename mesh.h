@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
+#include <SOIL/SOIL.h>
 
 //Separate vertex class for better readability
 class Vertex{
@@ -13,24 +14,27 @@ private:
 
 };
 
+class TexCord{
+
+public:
+    TexCord(const glm::vec2 &pos);
+private:
+    glm::vec2 _pos;
+
+};
+
 class Mesh{
 
 public:
-    Mesh(Vertex *vertices,unsigned int numVerts);
+    Mesh(Vertex *vertices,unsigned int numVerts,GLuint *indices,unsigned int drawCount);
     ~Mesh();
 
-    void Draw();
+    void Draw(GLuint program);
+    void addTexture(const char * path,TexCord *uv);
 
 private:
 
-    //I have no idea why I am using an enum
-    enum{
-        POSITION_VB,
-        NUM_BUFFERS
-    };
-
-    GLuint _VAO;
-    GLuint _buffers[NUM_BUFFERS];
+    GLuint _vbo,_ebo,_vao,_texture;
 
     unsigned int _drawCount;
 };

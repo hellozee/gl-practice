@@ -14,7 +14,7 @@ public:
 
     void Bind();
 
-    static GLuint _program;
+    GLuint program;
 
 private:
     GLuint _shaders[2];
