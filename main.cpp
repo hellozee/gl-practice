@@ -28,8 +28,8 @@ int main(){
     light.Translate(lightPos);
 
     //Fetching Shaders
-    Shader shader("shaders/shader.vs","shaders/shader.fs");
-    Shader lightShader("shaders/shader2.vs","shaders/shader2.fs");
+    Shader shader("shaders/vertexCube.glsl","shaders/fragmentCube.glsl");
+    Shader lightShader("shaders/vertexLight.glsl","shaders/fragmentLight.glsl");
 
     //Creating the camera
     Camera cam(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 45.0f, ratio, 0.1f, 100.0f);
