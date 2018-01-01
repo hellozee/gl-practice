@@ -1,7 +1,7 @@
 #include "camera.h"
 
 Camera::Camera(glm::vec3 cameraPos, glm::vec3 cameraFront, glm::vec3 cameraUp, GLfloat fov, GLfloat ratio, GLfloat nearPlane, GLfloat farPlane):
-_cameraPos(cameraPos),_cameraFront(cameraFront),_cameraUp(cameraUp)
+cameraPos(cameraPos),_cameraFront(cameraFront),_cameraUp(cameraUp),_keys(322,false)
 {
 	_projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane);
 	_cameraSpeed = 0.05f;
@@ -11,6 +11,9 @@ _cameraPos(cameraPos),_cameraFront(cameraFront),_cameraUp(cameraUp)
 	_yaw = -90.0f;
 	_firstMouse = true;
 	_sensitivity = 0.1f;
+    _xoffset = 0.0f;
+    _yoffset = 0.0f;
+    _out = false;
 }
 
 Camera::~Camera()
@@ -21,7 +24,7 @@ Camera::~Camera()
 void Camera::Use(GLuint program)
 {
 
-	_view = glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _cameraUp);
+	_view = glm::lookAt(cameraPos, cameraPos + _cameraFront, _cameraUp);
 
 	GLint modelLoc = glGetUniformLocation(program, "view");
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(_view));
@@ -52,20 +55,26 @@ void Camera::doMovement(unsigned int currentFrame)
 	_cameraSpeed = (float) _deltaTime * 0.002;
 
 	if(_keys[SDLK_w]){
-		_cameraPos += _cameraFront * _cameraSpeed;
+		cameraPos += _cameraFront * _cameraSpeed;
 	}
 
 	if(_keys[SDLK_a]){
-		_cameraPos -= glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed;
+		cameraPos -= glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed;
 	}
 
 	if(_keys[SDLK_s]){
-		_cameraPos -= _cameraFront * _cameraSpeed;
+		cameraPos -= _cameraFront * _cameraSpeed;
 	}
 
 	if(_keys[SDLK_d]){
-		_cameraPos += glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed;
+		cameraPos += glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed;
 	}
+
+    SDL_Event emptyEvent;
+
+    if(_out){
+        changeView(emptyEvent);
+    }
 
 }
 
@@ -81,15 +90,28 @@ void Camera::changeView(SDL_Event event)
         _firstMouse = false;
     }
 
-    GLfloat xoffset = _xPos - _lastX;
-    GLfloat yoffset = _lastY - _yPos; // Reversed since y-coordinates go from bottom to left
+    if( _xPos == 800 || _xPos == 0 || _yPos == 600 || _yPos == 0){
+
+        if(!_out){
+            _xoffset *= 0.05;
+            _yoffset *= 0.05;
+        }
+        _out = true;
+        std::cout << _xoffset << " " << _yoffset << std::endl;
+
+    }else{
+        _xoffset = _xPos - _lastX;
+        _yoffset = _lastY - _yPos;
+        _xoffset *= _sensitivity;
+        _yoffset *= _sensitivity;
+        _out = false;
+    }
+
     _lastX = _xPos;
     _lastY = _yPos;
 
-    xoffset *= _sensitivity;
-    yoffset *= _sensitivity;
-    _yaw   += xoffset;
-    _pitch += yoffset;
+    _yaw   += _xoffset;
+    _pitch += _yoffset;
 
     if (_pitch > 89.0f){
         _pitch = 89.0f;
@@ -103,6 +125,6 @@ void Camera::changeView(SDL_Event event)
     front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
     front.y = sin(glm::radians(_pitch));
     front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-    //std::cout << _pitch << " " << _yaw << std::endl;
+
     _cameraFront = glm::normalize(front);
 }

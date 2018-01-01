@@ -16,9 +16,9 @@ Mesh::Mesh(std::vector<GLfloat> meshData)
 
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,8 * sizeof(GL_FLOAT),(GLvoid*)0);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6 * sizeof(GL_FLOAT),(GLvoid*)0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,8 * sizeof(GL_FLOAT),(GLvoid*)(3*sizeof(GLfloat)));
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6 * sizeof(GL_FLOAT),(GLvoid*)(3*sizeof(GLfloat)));
 
     glBindVertexArray(0);
 }
@@ -69,4 +69,19 @@ void Mesh::addTexture(const char *path){
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,8 * sizeof(GLfloat),(GLvoid*)(sizeof(GLfloat) * 6));
     glBindVertexArray(0);
+}
+
+void Mesh::Translate(glm::vec3 transVec)
+{
+    _model = glm::translate(_model, transVec);
+}
+
+void Mesh::Rotate(float angle, glm::vec3 axis)
+{
+    _model = glm::rotate(_model, glm::radians(angle), axis);
+}
+
+void Mesh::Scale(glm::vec3 scaleVec)
+{
+    _model = glm::scale(_model, scaleVec);
 }

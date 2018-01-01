@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <vector>
 
 
 class Camera{
@@ -18,16 +19,20 @@ public:
 	void manageEvents(SDL_Event event);
 	void doMovement(unsigned int currentFrame);
 
+	glm::vec3 cameraPos;
+
 private:
 	glm::mat4 _projection, _view;
-	glm::vec3 _cameraPos, _cameraFront, _cameraUp;
+	glm::vec3 _cameraFront, _cameraUp;
 
 	unsigned int _deltaTime, _lastFrame;
 
 	GLfloat _xPos, _yPos, _lastX, _lastY;
 	GLfloat _pitch, _yaw, _sensitivity;
+	GLfloat _xoffset,_yoffset;
 
-	bool _keys[322], _firstMouse;
+	bool _firstMouse,_out;
+	std::vector<bool>_keys;
 
 	GLfloat _cameraSpeed;
 

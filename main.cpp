@@ -1,8 +1,9 @@
 //Includes
-#include "ui/display.h" //For drawing the window, uses SDL
-#include "draw/mesh.h"    //For generating the meshes
-#include "draw/shader.h"  //Compiling Shaders
-#include "ui/camera.h"  //Camera Controls
+#include "ui/display.h"  //For drawing the window, uses SDL
+#include "draw/mesh.h"   //For generating the meshes
+#include "draw/shader.h" //Compiling Shaders
+#include "ui/camera.h"   //Camera Controls
+#include "mesh/cube.h"   //The default cube
 
 int main(){
 
@@ -12,27 +13,30 @@ int main(){
 
     Display disp(WIDTH,HEIGHT,"Testing"); // SDL Window for drawing things
 
-    //Mesh Data structured as {x, y, z, r, g, b, u, v}
-
-    std::vector<GLfloat> meshData = {
-         0.0, 0.5,0,0.0,0.0,0.0,0.5,1.0,
-        -0.5,-0.5,0,0.0,0.0,0.0,0.0,0.0,
-         0.5,-0.5,0,0.0,0.0,0.0,1.0,0.0
-    };
-
     //Intializing mesh
-    Mesh mesh(meshData);
-    mesh.addTexture("textures/container.jpg");
+    Mesh cube(defaultCube);
+    //cube.addTexture("textures/container.jpg"); // Not required for now
+
+    cube.Rotate(45.0f,glm::vec3(0.0f,1.0f,0.0f));
+    cube.Translate(glm::vec3(-1.0f,0.0f,-1.0f));
+
+    Mesh light(defaultCube);
+
+    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
+    light.Scale(glm::vec3(0.2f));
+    light.Translate(lightPos);
 
     //Fetching Shaders
     Shader shader("shaders/shader.vs","shaders/shader.fs");
+    Shader lightShader("shaders/shader2.vs","shaders/shader2.fs");
 
     //Creating the camera
-    Camera cam(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 45.0f, ratio, 0.1f, 100.0f);
+    Camera cam(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 45.0f, ratio, 0.1f, 100.0f);
 
     while(!disp.isClosed()){
         //Clearing the screen to draw
-        disp.clear(0.8f,0.8f,0.8f,1.0f);
+        disp.clear(0.2f,0.2f,0.2f,1.0f);
 
         SDL_Event event;
 
@@ -43,12 +47,21 @@ int main(){
 
         //Attaching the shader to the program
         shader.Bind();
-
         cam.Use(shader.program);
-        cam.doMovement(SDL_GetTicks());
-
         //Drawing the mesh
-        mesh.Draw(shader.program);
+
+        glUniform3f(glGetUniformLocation(shader.program,"cubeColor"),1.0f, 0.5f, 0.31f);
+        glUniform3f(glGetUniformLocation(shader.program,"lightColor"),1.0f,1.0f,1.0f);
+        glUniform3f(glGetUniformLocation(shader.program,"lightPos"),lightPos.x,lightPos.y,lightPos.z);
+        glUniform3f(glGetUniformLocation(shader.program,"viewPos"), cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z);
+
+        cube.Draw(shader.program);
+
+        lightShader.Bind();
+        cam.Use(lightShader.program);
+        light.Draw(lightShader.program);
+
+        cam.doMovement(SDL_GetTicks());
 
         //Now Displying what is drawn
         disp.swapBuffers();

@@ -17,6 +17,9 @@ public:
 
     void Draw(GLuint program);
     void addTexture(const char * path);
+    void Translate(glm::vec3 transVec);
+    void Rotate(float angle, glm::vec3 axis);
+    void Scale(glm::vec3 scaleVec);
 
 private:
 
