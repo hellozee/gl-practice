@@ -9,7 +9,7 @@
 
 ### <u>To Do</u>
 
-- **Lighting**
+- **Lighting** `[Ongoing]`
 - **Model Loading**
 
 
