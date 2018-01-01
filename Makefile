@@ -1,2 +1,2 @@
 all:
-	g++ -o GLWindow main.cpp display.cpp mesh.cpp shader.cpp -lSDL2 -lGLEW -lGL -lSOIL
+	g++ -o GLWindow main.cpp ui/display.cpp draw/mesh.cpp draw/shader.cpp ui/camera.cpp -lSDL2 -lGLEW -lGL -lSOIL

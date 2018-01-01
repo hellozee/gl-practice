@@ -1,10 +1,10 @@
 #include "shader.h"
 
-Shader::Shader(const std::string &path)
+Shader::Shader(const std::string &vertexShaderSource,const std::string &fragmentShaderSource)
 {
     program = glCreateProgram();
-    _shaders[0] = CreateShader(LoadShader(path + ".vs"),GL_VERTEX_SHADER);
-    _shaders[1] = CreateShader(LoadShader(path + ".fs"),GL_FRAGMENT_SHADER);
+    _shaders[0] = CreateShader(LoadShader(vertexShaderSource),GL_VERTEX_SHADER);
+    _shaders[1] = CreateShader(LoadShader(fragmentShaderSource),GL_FRAGMENT_SHADER);
 
     for(unsigned int i=0;i<2;i++){
         glAttachShader(program,_shaders[i]);
@@ -29,7 +29,7 @@ Shader::~Shader()
 }
 
 void Shader::Bind()
-{   
+{
     glUseProgram(program);
 }
 
@@ -41,16 +41,16 @@ GLuint Shader::CreateShader(const std::string &text, GLenum shaderType)
         std::cerr << "Error : Shader Creation failed." << std::endl;
     }
 
-    const GLchar* shaderSource[1];
-    GLint shaderLength[1];
+    const GLchar* shaderSource;
+    GLint shaderLength;
 
-    shaderSource[0] = text.c_str();
-    shaderLength[0] = text.length();
+    shaderSource = text.c_str();
+    shaderLength = text.length();
 
-    glShaderSource(shader,1,shaderSource,shaderLength);
+    glShaderSource(shader,1,&shaderSource,&shaderLength);
     glCompileShader(shader);
 
-    CheckShaderError(shader,GL_COMPILE_STATUS,false,"Error Shader compilation failed");    
+    CheckShaderError(shader,GL_COMPILE_STATUS,false,"Error Shader compilation failed");
 
     return shader;
 }

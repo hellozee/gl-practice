@@ -21,6 +21,8 @@ public:
     //Clearing the screen for further drawing
     void clear(float r,float g,float b,float a);
 
+    void manageEvents(SDL_Event event);
+
 private:
     SDL_Window *_window;
     SDL_GLContext _glContext;

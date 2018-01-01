@@ -1,14 +1,18 @@
 #include "mesh.h"
 
-Mesh::Mesh(GLfloat *meshData,unsigned int numVerts)
+Mesh::Mesh(std::vector<GLfloat> meshData)
 {
+    int numVerts = meshData.size();
     _drawCount = numVerts/8;
+
+    _model = glm::mat4();
+
     glGenVertexArrays(1,&_vao);
     glBindVertexArray(_vao);
 
     glGenBuffers(1,&_vbo);
     glBindBuffer(GL_ARRAY_BUFFER,_vbo);
-    glBufferData(GL_ARRAY_BUFFER,numVerts * sizeof(meshData[0]),meshData,GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER,numVerts * sizeof(GLfloat),&meshData.front(),GL_STATIC_DRAW);
 
 
     glEnableVertexAttribArray(0);
@@ -32,6 +36,9 @@ void Mesh::Draw(GLuint program)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _texture);
     glUniform1i(glGetUniformLocation(program,"tex"),0);
+
+    GLint modelLoc = glGetUniformLocation(program, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(_model));
 
     glDrawArrays(GL_TRIANGLES,0,_drawCount);
 
@@ -62,15 +69,4 @@ void Mesh::addTexture(const char *path){
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,8 * sizeof(GLfloat),(GLvoid*)(sizeof(GLfloat) * 6));
     glBindVertexArray(0);
-}
-
-Vertex::Vertex(const glm::vec3 &pos) :
-_pos(pos)
-{
-}
-
-TexCord::TexCord(const glm::vec2 &pos):
-_pos(pos)
-{
-
 }

@@ -1,7 +1,7 @@
 #include "display.h"
 
 Display::Display(int width, int height, const std::string &title)
-{   
+{
     //Initializing SDL
     SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -15,6 +15,9 @@ Display::Display(int width, int height, const std::string &title)
 
     _window = SDL_CreateWindow(title.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,width,height,SDL_WINDOW_OPENGL);
     _glContext = SDL_GL_CreateContext(_window);
+
+    //SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_WarpMouseInWindow(_window, width/2, height/2);
 
     GLenum status = glewInit();
 
@@ -39,21 +42,21 @@ void Display::clear(float r,float g,float b,float a)
 void Display::swapBuffers()
 {
     SDL_GL_SwapWindow(_window);
+}
 
-    SDL_Event event;
+void Display::manageEvents(SDL_Event event)
+{
+    if(event.type == SDL_QUIT){
+        _isClosed = true;
+    }
 
-    if(SDL_PollEvent(&event)){
-        if(event.type == SDL_QUIT){
-            _isClosed = true;
-        }
-        if(event.type == SDL_KEYDOWN){
-            switch (event.key.keysym.sym){
-                case SDLK_ESCAPE:
-                    _isClosed = true;
-                    break;
-                default:
-                    break;
-            }
+    if(event.type == SDL_KEYDOWN){
+        switch (event.key.keysym.sym){
+            case SDLK_ESCAPE:
+                _isClosed = true;
+                break;
+            default:
+                break;
         }
     }
 }
