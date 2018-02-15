@@ -1,0 +1,33 @@
+${
+	binary = 'g++'
+	name = 'GLWindow'
+	start = 'main'
+	ldflags = '-lSDL2 -lGLEW -lGL -lSOIL'
+	includes = ''
+	others = '-Wall -Wextra'
+}
+
+main{
+	file = 'main.cpp'
+	deps = 'camera display mesh shader'
+}
+
+camera{
+	file = 'ui/camera.cpp'
+	deps = ''
+}
+
+display{
+	file = 'ui/display.cpp'
+	deps = ''
+}
+
+mesh{
+	file = 'draw/mesh.cpp'
+	deps = ''
+}
+
+shader{
+	file = 'draw/shader.cpp'
+	deps = ''
+}
