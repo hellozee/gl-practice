@@ -91,21 +91,15 @@ void Camera::changeView(SDL_Event event)
     }
 
     if( _xPos == 800 || _xPos == 0 || _yPos == 600 || _yPos == 0){
-
-        if(!_out){
-            _xoffset *= 0.05;
-            _yoffset *= 0.05;
-        }
         _out = true;
-        std::cout << _xoffset << " " << _yoffset << std::endl;
-
-    }else{
-        _xoffset = _xPos - _lastX;
-        _yoffset = _lastY - _yPos;
-        _xoffset *= _sensitivity;
-        _yoffset *= _sensitivity;
-        _out = false;
+        return;
     }
+
+    _xoffset = _xPos - _lastX;
+    _yoffset = _lastY - _yPos;
+    _xoffset *= _sensitivity;
+    _yoffset *= _sensitivity;
+    _out = false;
 
     _lastX = _xPos;
     _lastY = _yPos;
