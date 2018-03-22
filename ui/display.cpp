@@ -1,5 +1,4 @@
 #include "display.h"
-#include <cstdio>
 
 Display::Display(int width, int height, const std::string &title)
 {
