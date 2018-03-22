@@ -1,4 +1,5 @@
 #include "display.h"
+#include <cstdio>
 
 Display::Display(int width, int height, const std::string &title)
 {
@@ -22,6 +23,7 @@ Display::Display(int width, int height, const std::string &title)
     //SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_WarpMouseInWindow(_window, width/2, height/2);
 
+    glewExperimental = GL_TRUE; //oh boy you gave me a lot of headache
     GLenum status = glewInit();
 
     if(status != GLEW_OK){
