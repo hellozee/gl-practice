@@ -27,7 +27,6 @@ private:
 
 	unsigned int _deltaTime, _lastFrame;
 
-	GLfloat _xPos, _yPos, _lastX, _lastY;
 	GLfloat _pitch, _yaw, _sensitivity;
 	GLfloat _xoffset,_yoffset;
 

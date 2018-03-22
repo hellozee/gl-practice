@@ -19,7 +19,7 @@ Display::Display(int width, int height, const std::string &title)
     _window = SDL_CreateWindow(title.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,width,height,SDL_WINDOW_OPENGL);
     _glContext = SDL_GL_CreateContext(_window);
 
-    //SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_WarpMouseInWindow(_window, width/2, height/2);
 
     glewExperimental = GL_TRUE; //oh boy you gave me a lot of headache

@@ -9,11 +9,9 @@ cameraPos(cameraPos),_cameraFront(cameraFront),_cameraUp(cameraUp),_keys(322,fal
 	_lastFrame = 0;
 	_pitch = 0.0f ;
 	_yaw = -90.0f;
-	_firstMouse = true;
-	_sensitivity = 0.1f;
+	_sensitivity = 0.01f;
     _xoffset = 0.0f;
     _yoffset = 0.0f;
-    _out = false;
 }
 
 Camera::~Camera()
@@ -69,40 +67,15 @@ void Camera::doMovement(unsigned int currentFrame)
 	if(_keys[SDLK_d]){
 		cameraPos += glm::normalize(glm::cross(_cameraFront, _cameraUp)) * _cameraSpeed;
 	}
-
-    SDL_Event emptyEvent;
-
-    if(_out){
-        changeView(emptyEvent);
-    }
-
 }
 
 void Camera::changeView(SDL_Event event)
 {
-	_xPos = event.motion.x;
-	_yPos = event.motion.y;
+    _xoffset = event.motion.xrel;
+    _yoffset = -1 * event.motion.yrel;
 
-	if (_firstMouse)
-    {
-        _lastX = _xPos;
-        _lastY = _yPos;
-        _firstMouse = false;
-    }
-
-    if( _xPos == 800 || _xPos == 0 || _yPos == 600 || _yPos == 0){
-        _out = true;
-        return;
-    }
-
-    _xoffset = _xPos - _lastX;
-    _yoffset = _lastY - _yPos;
     _xoffset *= _sensitivity;
     _yoffset *= _sensitivity;
-    _out = false;
-
-    _lastX = _xPos;
-    _lastY = _yPos;
 
     _yaw   += _xoffset;
     _pitch += _yoffset;
