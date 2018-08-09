@@ -9,8 +9,7 @@
 #include <vector>
 
 
-class Mesh{
-
+class Mesh {
 public:
     Mesh(std::vector<GLfloat> meshData);
     ~Mesh();
@@ -23,7 +22,7 @@ public:
 
 private:
 
-    GLuint _vbo,_vao,_texture;
+    GLuint _vbo, _vao, _texture;
 
     glm::mat4 _model;
 

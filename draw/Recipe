@@ -1,0 +1,8 @@
+
+entity mesh{
+    file = "mesh.cpp"
+}
+
+entity shader{
+    file = "shader.cpp"
+}

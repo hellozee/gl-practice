@@ -1,33 +1,16 @@
+import "ui"
+import "draw"
+
 entity #{
-	binary = g++;
-	name = GLWindow;
-	start = main;
-	ldflags = -lSDL2 -lGLEW -lGL -lSOIL;
-	includes = ;
-	others = -Wall -Wextra;
+	binary = "g++"
+	name = "GLWindow"
+	start = "main"
+	ldflags = "-lSDL2 -lGLEW -lGL -lSOIL"
+	includes = 
+	others = "-Wall -Wextra -std=c++11"
 }
 
 entity main{
-	file = main.cpp;
-	deps = camera display mesh shader;
-}
-
-entity camera{
-	file = ui/camera.cpp;
-	deps = ;
-}
-
-entity display{
-	file = ui/display.cpp;
-	deps = ;
-}
-
-entity mesh{
-	file = draw/mesh.cpp;
-	deps = ;
-}
-
-entity shader{
-	file = draw/shader.cpp;
-	deps = ;
+	file = "main.cpp"
+	deps = "camera display mesh shader"
 }
