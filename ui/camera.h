@@ -9,31 +9,32 @@
 #include <vector>
 
 
-class Camera {
+class Camera{
+
 public:
-    Camera(glm::vec3 cameraPos, glm::vec3 cameraFront, glm::vec3 cameraUp,
-         GLfloat fov, GLfloat ratio, GLfloat nearPlane, GLfloat farPlane);
-    ~Camera();
+	Camera(glm::vec3 cameraPos, glm::vec3 cameraFront, glm::vec3 cameraUp, GLfloat fov, GLfloat ratio, GLfloat nearPlane, GLfloat farPlane);
+	~Camera();
 
-    void Use(GLuint program);
-    void manageEvents(SDL_Event event);
-    void doMovement(unsigned int currentFrame);
+	void Use(GLuint program);
+	void manageEvents(SDL_Event event);
+	void doMovement(unsigned int currentFrame);
 
-    glm::vec3 cameraPos;
+	glm::vec3 cameraPos;
 
 private:
-    glm::mat4 _projection, _view;
-    glm::vec3 _cameraFront, _cameraUp;
+	glm::mat4 _projection, _view;
+	glm::vec3 _cameraFront, _cameraUp;
 
-    unsigned int _deltaTime, _lastFrame;
+	unsigned int _deltaTime, _lastFrame;
 
-    GLfloat _pitch, _yaw, _sensitivity;
-    GLfloat _xoffset, _yoffset;
+	GLfloat _pitch, _yaw, _sensitivity;
+	GLfloat _xoffset,_yoffset;
 
-    bool _firstMouse, _out;
-    std::vector<bool> _keys;
+	bool _firstMouse,_out;
+	std::vector<bool>_keys;
 
-    GLfloat _cameraSpeed;
+	GLfloat _cameraSpeed;
 
-    void changeView(SDL_Event event);
+	void changeView(SDL_Event event);
+
 };

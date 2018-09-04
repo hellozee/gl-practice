@@ -1,7 +1,0 @@
-entity display{
-    file = "display.cpp"
-}
-
-entity camera{
-    file = "camera.cpp"
-}
