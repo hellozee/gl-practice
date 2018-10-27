@@ -5,7 +5,7 @@ Mesh::Mesh(std::vector<GLfloat> meshData)
     int numVerts = meshData.size();
     _drawCount = numVerts/8;
 
-    _model = glm::mat4();
+    _model = glm::mat4(1.0f);
 
     glGenVertexArrays(1,&_vao);
     glBindVertexArray(_vao);
